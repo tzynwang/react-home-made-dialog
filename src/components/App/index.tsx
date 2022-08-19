@@ -1,31 +1,26 @@
-import React, { memo } from 'react'
-import classNames from 'classnames'
-
-import Styles from './index.module.css'
+import React, { memo, useState } from 'react';
+import classNames from 'classnames';
+import HomeMadeDialog from '@Components/Common/HomeMadeDialog';
+import scopedStyle from './index.module.css';
 
 function App(): React.ReactElement {
+  /* States */
+  const [dialogOpen, setDialogOpen] = useState<boolean>(false);
+
+  /* Main */
   return (
-    <main className={classNames(Styles.main)}>
-      <div>
-        Hello world, this React APP is created by{' '}
-        <code className={classNames(Styles.mainCode)}>npx create-react-app with template --choffee</code>.
-      </div>
-      <div>
-        Author: Charlie (Tzu Yin) |{' '}
-        <a href="https://github.com/tzynwang" target="_blank" className={Styles.mainAnchor}>
-          GitHub
-        </a>{' '}
-        |{' '}
-        <a href="https://tzynwang.github.io/" target="_blank" className={Styles.mainAnchor}>
-          Blog
-        </a>{' '}
-        |{' '}
-        <a href="https://www.npmjs.com/~tzyn.wang" target="_blank" className={Styles.mainAnchor}>
-          npm Packages
-        </a>
-      </div>
-    </main>
-  )
+    <div className={classNames(scopedStyle.main)}>
+      <button type="button" onClick={() => setDialogOpen(true)}>
+        open dialog
+      </button>
+      <HomeMadeDialog
+        dialogOpen={dialogOpen}
+        onDialogClose={() => setDialogOpen(false)}
+      >
+        <div>here is dialog's content</div>
+      </HomeMadeDialog>
+    </div>
+  );
 }
 
-export default memo(App)
+export default memo(App);
