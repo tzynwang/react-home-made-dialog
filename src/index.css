@@ -4,3 +4,14 @@
   box-sizing: border-box;
   font-family: system-ui;
 }
+
+button {
+  border: none;
+  padding: 8px 16px;
+  border-radius: 4px;
+  background-color: #5b622e;
+  color: #fff;
+  font-family: inherit;
+  font-size: inherit;
+  cursor: pointer;
+}

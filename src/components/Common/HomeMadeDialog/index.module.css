@@ -1,0 +1,45 @@
+:local(.defaultDialogStyle) {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  margin: 0;
+  padding: 24px;
+  border-radius: 8px;
+  border: none;
+  background-color: #fff;
+  animation: opacityIn 0.25s;
+}
+
+:local(.defaultBackdropStyle) {
+  width: 100vw;
+  height: 100vh;
+  position: fixed;
+  top: 0;
+  left: 0;
+  background-color: rgba(0, 0, 0, 0.6);
+  animation: opacityIn 0.25s;
+}
+
+:local(.unmountedAnimation) {
+  animation: opacityOut 0.25s;
+}
+
+@keyframes opacityIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+/* TODO: 處理元件 unmounted 時的動畫效果 */
+@keyframes opacityOut {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}
