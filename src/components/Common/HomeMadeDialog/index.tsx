@@ -1,4 +1,4 @@
-import React, { memo, useRef, useEffect } from 'react';
+import React, { memo, useRef, useState, useEffect } from 'react';
 import cn from 'classnames';
 import Portal from '@Components/Common/Portal';
 import scopedStyle from './index.module.css';
@@ -71,6 +71,7 @@ function HomeMadeDialog(props: HomeMadeDialogProps): React.ReactElement {
     onDialogClose,
     ...rest
   } = props;
+  const [mounted, setMounted] = useState<boolean>(false);
   const stylesFromProps = rest.style;
   const classNamesFromProps = rest.className;
   const roleFromProps = rest.role;
@@ -78,12 +79,33 @@ function HomeMadeDialog(props: HomeMadeDialogProps): React.ReactElement {
   delete rest.className;
   delete rest.role;
 
+  /* Functions */
+  const unmountDialog = (): void => {
+    setMounted(false);
+  };
+
+  /* Hooks */
+  useEffect(() => {
+    document.addEventListener('transitionend', unmountDialog);
+    return () => {
+      document.removeEventListener('transitionend', unmountDialog);
+    };
+  }, []);
+  useEffect(() => {
+    if (dialogOpen) {
+      setMounted(true);
+    }
+  }, [dialogOpen]);
+
   /* Main */
-  return dialogOpen ? (
+  return mounted ? (
     <Portal>
       <DialogGround
         onDialogClose={onDialogClose}
-        className={cn(classes.backdrop)}
+        className={cn(
+          classes.backdrop,
+          !dialogOpen && scopedStyle.unmountedAnimation
+        )}
         disableCloseByBackdropClick={disableCloseByBackdropClick}
         disableCloseByKeyPress={disableCloseByKeyPress}
         overwriteEscapeKey={overwriteEscapeKey}
@@ -93,7 +115,8 @@ function HomeMadeDialog(props: HomeMadeDialogProps): React.ReactElement {
           className={cn(
             classes.dialog,
             classNamesFromProps,
-            scopedStyle.defaultDialogStyle
+            scopedStyle.defaultDialogStyle,
+            !dialogOpen && scopedStyle.unmountedAnimation
           )}
           style={{ ...stylesFromProps }}
           role={roleFromProps || 'dialog'}
