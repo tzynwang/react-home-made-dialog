@@ -1,77 +1,70 @@
 # Introduction
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app), with template `choffee`.
+Build a reusable dialog component only with npm package `classnames`.
 
-Install the following packages by default:
-- `typescript`
-- (dev) `webpack`
+# Example
 
-## Available Scripts
+```tsx
+import React, { memo, useState } from 'react';
+import classNames from 'classnames';
+import HomeMadeDialog from '@Components/Common/HomeMadeDialog';
+import scopedStyle from './index.module.css';
 
-In the project directory, you can run:
+function App(): React.ReactElement {
+  /* States */
+  const [dialogOpen, setDialogOpen] = useState<boolean>(false);
 
-### `npm run dev`
+  /* Main */
+  return (
+    <div className={classNames(scopedStyle.main)}>
+      <button type="button" onClick={() => setDialogOpen(true)}>
+        open dialog
+      </button>
+      <HomeMadeDialog
+        dialogOpen={dialogOpen}
+        onDialogClose={() => setDialogOpen(false)}
+        classes={{ dialog: 'classNameToOverWriteDialogDefaultStyle' }}
+      >
+        <div>here is dialog's content</div>
+      </HomeMadeDialog>
+    </div>
+  );
+}
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+export default memo(App);
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+```
 
-### `npm run deploy`
-
-Deploy the app to the repository as GitHub Pages.
-
-## Components Import Path
-
-Use `@Components/path/to/the/component` to import any component from anywhere.\
+## Props
 
 ```ts
-// src/index.tsx
-import App from '@Components/App'
-import ErrorBoundary from '@Components/Common/ErrorBoundary'
+/* Any native HTMLDivElement attribute can be passed to HomeMadeDialog */
+export interface HomeMadeDialogProps
+  extends React.HTMLAttributes<HTMLDivElement> {
+  children: JSX.Element;
+  /* The dialog's content */
+
+  dialogOpen: boolean;
+  /* If true, then the dialog and the backdrop will display on the screen */
+
+  onDialogClose: () => void;
+  /* The function to call when dialog is going to be closed */
+
+  disableCloseByBackdropClick?: boolean;
+  /* If true, then clicking dialog's backdrop will not close the dialog */
+
+  disableCloseByKeyPress?: boolean;
+  /* If true, then pressing the Escape key will not close the dialog */
+
+  overwriteEscapeKey?: string;
+  /* Pass key string to this prop to overwrite default Escape key */
+
+  classes?: Partial<HomeMadeDialogClasses>;
+  /* Passing css class names to overwrite dialog or backdrop's default style */
+}
+
+interface HomeMadeDialogClasses {
+  dialog: string;
+  backdrop: string;
+}
 ```
-
-## Folder Structure
-
-```
-config/
-  jest/
-  webpack/
-  alias.js
-  env.js
-  getHttpsConfig.js
-  modules.js
-  path.js
-  webpack.config.js
-  webpackDevServer.config.js
-public/
-  index.html
-  robots.txt
-scripts/
-  build.js
-  start.js
-  test.js
-src/
-  components/
-    App/
-      index.tsx
-    Common/
-      ErrorBoundary/
-        index.tsx
-        types.d.ts
-    Layout/
-  index.css
-  index.tsx
-  react-app.env.d.ts
-  reportWebVitals.ts
-.gitignore
-package.json
-README.md
-tsconfig.json
-```
-
-## Author
-
-Charlie (Tzu Yin)\
-[Blog](https://tzynwang.github.io/) | [GitHub](https://github.com/tzynwang)
