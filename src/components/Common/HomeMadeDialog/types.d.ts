@@ -6,8 +6,8 @@ export type DialogGroundProps = React.HTMLAttributes<HTMLDivElement> &
     | 'children'
     | 'onDialogClose'
     | 'disableCloseByBackdropClick'
-    | 'disableCloseByKeypress'
-    | 'overWriteEscapeKey'
+    | 'disableCloseByKeyPress'
+    | 'overwriteEscapeKey'
   >;
 
 export interface HomeMadeDialogProps
@@ -16,8 +16,8 @@ export interface HomeMadeDialogProps
   dialogOpen: boolean;
   onDialogClose: () => void;
   disableCloseByBackdropClick?: boolean;
-  disableCloseByKeypress?: boolean;
-  overWriteEscapeKey?: string;
+  disableCloseByKeyPress?: boolean;
+  overwriteEscapeKey?: string;
   classes?: Partial<HomeMadeDialogClasses>;
 }
 

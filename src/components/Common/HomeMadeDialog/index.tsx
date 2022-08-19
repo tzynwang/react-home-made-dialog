@@ -14,8 +14,8 @@ function DialogGround(props: DialogGroundProps): React.ReactElement {
     children,
     onDialogClose,
     disableCloseByBackdropClick,
-    disableCloseByKeypress,
-    overWriteEscapeKey,
+    disableCloseByKeyPress,
+    overwriteEscapeKey,
     ...rest
   } = props;
   const ref = useRef<HTMLDivElement | null>(null);
@@ -30,8 +30,8 @@ function DialogGround(props: DialogGroundProps): React.ReactElement {
     }
   };
   const closeDialogByKeydown = (e: KeyboardEvent): void => {
-    if (disableCloseByKeypress) return;
-    if (e.key === overWriteEscapeKey) {
+    if (disableCloseByKeyPress) return;
+    if (e.key === overwriteEscapeKey) {
       onDialogClose();
     }
   };
@@ -65,8 +65,8 @@ function HomeMadeDialog(props: HomeMadeDialogProps): React.ReactElement {
     dialogOpen,
     children,
     disableCloseByBackdropClick = false,
-    disableCloseByKeypress = false,
-    overWriteEscapeKey = KEY.ESCAPE,
+    disableCloseByKeyPress = false,
+    overwriteEscapeKey = KEY.ESCAPE,
     classes = { dialog: '', backdrop: '' },
     onDialogClose,
     ...rest
@@ -85,8 +85,8 @@ function HomeMadeDialog(props: HomeMadeDialogProps): React.ReactElement {
         onDialogClose={onDialogClose}
         className={cn(classes.backdrop)}
         disableCloseByBackdropClick={disableCloseByBackdropClick}
-        disableCloseByKeypress={disableCloseByKeypress}
-        overWriteEscapeKey={overWriteEscapeKey}
+        disableCloseByKeyPress={disableCloseByKeyPress}
+        overwriteEscapeKey={overwriteEscapeKey}
         role="presentation"
       >
         <div
