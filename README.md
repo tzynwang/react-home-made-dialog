@@ -1,6 +1,6 @@
 # Introduction
 
-Build a reusable dialog component only with npm package `classnames`.
+Build a reusable dialog component with only 1 dependency package `classnames`.
 
 # Example
 
