@@ -14,7 +14,7 @@ export interface HomeMadeDialogProps
   extends React.HTMLAttributes<HTMLDivElement> {
   children: JSX.Element;
   dialogOpen: boolean;
-  onDialogClose: () => void;
+  onDialogClose?: () => void;
   disableCloseByBackdropClick?: boolean;
   disableCloseByKeyPress?: boolean;
   overwriteEscapeKey?: string;
