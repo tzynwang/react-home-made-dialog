@@ -47,7 +47,7 @@ export interface HomeMadeDialogProps
   dialogOpen: boolean;
   /* If true, then the dialog and the backdrop will display on the screen */
 
-  onDialogClose: () => void;
+  onDialogClose?: () => void;
   /* The function to call when dialog is going to be closed */
 
   disableCloseByBackdropClick?: boolean;
