@@ -25,13 +25,13 @@ function DialogGround(props: DialogGroundProps): React.ReactElement {
   /* Functions */
   const closeDialogByClick = (e: MouseEvent): void => {
     if (disableCloseByBackdropClick) return;
-    if (e.target === e.currentTarget) {
+    if (e.target === e.currentTarget && onDialogClose) {
       onDialogClose();
     }
   };
   const closeDialogByKeydown = (e: KeyboardEvent): void => {
     if (disableCloseByKeyPress) return;
-    if (e.key === overwriteEscapeKey) {
+    if (e.key === overwriteEscapeKey && onDialogClose) {
       onDialogClose();
     }
   };
