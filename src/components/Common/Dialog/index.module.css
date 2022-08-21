@@ -34,12 +34,3 @@
     opacity: 1;
   }
 }
-
-@keyframes opacityOut {
-  from {
-    opacity: 1;
-  }
-  to {
-    opacity: 0;
-  }
-}
