@@ -1,0 +1,48 @@
+:local(.defaultSliderStyle) {
+  height: 100vh;
+  position: absolute;
+  top: 0;
+  right: 0;
+  margin: 0;
+  padding: 24px;
+  background-color: #fff;
+  animation: slideIn 0.25s;
+}
+
+:local(.defaultBackdropStyle) {
+  width: 100vw;
+  height: 100vh;
+  position: fixed;
+  top: 0;
+  left: 0;
+  background-color: rgba(0, 0, 0, 0.6);
+  animation: opacityIn 0.25s;
+}
+
+:local(.sliderUnmountedAnimation) {
+  transform: translateX(50vw);
+  transition: 0.25s ease;
+}
+
+:local(.backdropUnmountedAnimation) {
+  opacity: 0;
+  transition: 0.25s ease;
+}
+
+@keyframes slideIn {
+  from {
+    transform: translateX(50vw);
+  }
+  to {
+    transform: translateX(0);
+  }
+}
+
+@keyframes opacityIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
