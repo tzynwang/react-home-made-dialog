@@ -59,7 +59,7 @@ function DialogGround(props: DialogGroundProps): React.ReactElement {
   );
 }
 
-function HomeMadeDialog(props: HomeMadeDialogProps): React.ReactElement {
+function Dialog(props: HomeMadeDialogProps): React.ReactElement {
   /* States */
   const {
     dialogOpen,
@@ -131,4 +131,4 @@ function HomeMadeDialog(props: HomeMadeDialogProps): React.ReactElement {
   );
 }
 
-export default memo(HomeMadeDialog);
+export default memo(Dialog);
