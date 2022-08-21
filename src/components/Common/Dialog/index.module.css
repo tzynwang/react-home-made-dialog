@@ -22,7 +22,8 @@
 }
 
 :local(.unmountedAnimation) {
-  animation: opacityOut 0.25s;
+  opacity: 0;
+  transition: 0.25s ease;
 }
 
 @keyframes opacityIn {
@@ -31,15 +32,5 @@
   }
   to {
     opacity: 1;
-  }
-}
-
-/* TODO: 處理元件 unmounted 時的動畫效果 */
-@keyframes opacityOut {
-  from {
-    opacity: 1;
-  }
-  to {
-    opacity: 0;
   }
 }

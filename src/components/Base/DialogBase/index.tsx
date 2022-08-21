@@ -1,18 +1,17 @@
-import React, { memo, useRef, useEffect } from 'react';
+import React, { memo, useRef, useState, useEffect } from 'react';
 import cn from 'classnames';
 import Portal from '@Components/Common/Portal';
-import scopedStyle from './index.module.css';
-import type { DialogGroundProps, HomeMadeDialogProps } from './types';
+import type { DialogBackdropBaseProps, DialogBaseProps } from './types';
 
 enum KEY {
   ESCAPE = 'Escape',
 }
 
-function DialogGround(props: DialogGroundProps): React.ReactElement {
+function DialogGroundBase(props: DialogBackdropBaseProps): React.ReactElement {
   /* States */
   const {
     children,
-    onDialogClose,
+    onClose,
     disableCloseByBackdropClick,
     disableCloseByKeyPress,
     overwriteEscapeKey,
@@ -25,14 +24,14 @@ function DialogGround(props: DialogGroundProps): React.ReactElement {
   /* Functions */
   const closeDialogByClick = (e: MouseEvent): void => {
     if (disableCloseByBackdropClick) return;
-    if (e.target === e.currentTarget) {
-      onDialogClose();
+    if (e.target === e.currentTarget && onClose) {
+      onClose();
     }
   };
   const closeDialogByKeydown = (e: KeyboardEvent): void => {
     if (disableCloseByKeyPress) return;
-    if (e.key === overwriteEscapeKey) {
-      onDialogClose();
+    if (e.key === overwriteEscapeKey && onClose) {
+      onClose();
     }
   };
 
@@ -49,28 +48,25 @@ function DialogGround(props: DialogGroundProps): React.ReactElement {
 
   /* Main */
   return (
-    <div
-      className={cn(scopedStyle.defaultBackdropStyle, classNamesFromProps)}
-      ref={ref}
-      {...rest}
-    >
+    <div className={cn(classNamesFromProps)} ref={ref} {...rest}>
       {children}
     </div>
   );
 }
 
-function HomeMadeDialog(props: HomeMadeDialogProps): React.ReactElement {
+function DialogBase(props: DialogBaseProps): React.ReactElement {
   /* States */
   const {
-    dialogOpen,
+    open,
     children,
     disableCloseByBackdropClick = false,
     disableCloseByKeyPress = false,
     overwriteEscapeKey = KEY.ESCAPE,
     classes = { dialog: '', backdrop: '' },
-    onDialogClose,
+    onClose,
     ...rest
   } = props;
+  const [mounted, setMounted] = useState<boolean>(false);
   const stylesFromProps = rest.style;
   const classNamesFromProps = rest.className;
   const roleFromProps = rest.role;
@@ -78,12 +74,33 @@ function HomeMadeDialog(props: HomeMadeDialogProps): React.ReactElement {
   delete rest.className;
   delete rest.role;
 
+  /* Functions */
+  const unmountDialog = (): void => {
+    setMounted(false);
+  };
+
+  /* Hooks */
+  useEffect(() => {
+    document.addEventListener('transitionend', unmountDialog);
+    return () => {
+      document.removeEventListener('transitionend', unmountDialog);
+    };
+  }, []);
+  useEffect(() => {
+    if (open) {
+      setMounted(true);
+    }
+  }, [open]);
+
   /* Main */
-  return dialogOpen ? (
+  return mounted ? (
     <Portal>
-      <DialogGround
-        onDialogClose={onDialogClose}
-        className={cn(classes.backdrop)}
+      <DialogGroundBase
+        onClose={onClose}
+        className={cn(
+          classes.backdrop,
+          !open && classes.backdropUnmountedAnimation
+        )}
         disableCloseByBackdropClick={disableCloseByBackdropClick}
         disableCloseByKeyPress={disableCloseByKeyPress}
         overwriteEscapeKey={overwriteEscapeKey}
@@ -93,7 +110,7 @@ function HomeMadeDialog(props: HomeMadeDialogProps): React.ReactElement {
           className={cn(
             classes.dialog,
             classNamesFromProps,
-            scopedStyle.defaultDialogStyle
+            !open && classes.dialogUnmountedAnimation
           )}
           style={{ ...stylesFromProps }}
           role={roleFromProps || 'dialog'}
@@ -101,11 +118,11 @@ function HomeMadeDialog(props: HomeMadeDialogProps): React.ReactElement {
         >
           {children}
         </div>
-      </DialogGround>
+      </DialogGroundBase>
     </Portal>
   ) : (
     <React.Fragment />
   );
 }
 
-export default memo(HomeMadeDialog);
+export default memo(DialogBase);
