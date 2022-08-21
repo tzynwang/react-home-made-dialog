@@ -7,10 +7,10 @@ export interface DialogBaseProps extends React.HTMLAttributes<HTMLDivElement> {
   disableCloseByBackdropClick?: boolean;
   disableCloseByKeyPress?: boolean;
   overwriteEscapeKey?: string;
-  classes?: Partial<HomeMadeDialogClasses>;
+  classes?: Partial<DialogBaseClasses>;
 }
 
-interface HomeMadeDialogClasses {
+interface DialogBaseClasses {
   dialog: string;
   backdrop: string;
   dialogUnmountedAnimation: string;
