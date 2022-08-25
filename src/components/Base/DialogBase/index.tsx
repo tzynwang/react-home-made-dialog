@@ -67,6 +67,7 @@ function DialogBase(props: DialogBaseProps): React.ReactElement {
     ...rest
   } = props;
   const [mounted, setMounted] = useState<boolean>(false);
+  const dialogRef = useRef<HTMLDivElement | null>(null);
   const stylesFromProps = rest.style;
   const classNamesFromProps = rest.className;
   const roleFromProps = rest.role;
@@ -81,14 +82,17 @@ function DialogBase(props: DialogBaseProps): React.ReactElement {
 
   /* Hooks */
   useEffect(() => {
-    document.addEventListener('transitionend', unmountDialog);
+    const dialog = dialogRef.current;
+    dialog?.addEventListener('transitionend', unmountDialog);
     return () => {
-      document.removeEventListener('transitionend', unmountDialog);
+      dialog?.removeEventListener('transitionend', unmountDialog);
     };
-  }, []);
+  }, [dialogRef]);
   useEffect(() => {
     if (open) {
       setMounted(true);
+    } else {
+      setMounted(false);
     }
   }, [open]);
 
@@ -114,6 +118,7 @@ function DialogBase(props: DialogBaseProps): React.ReactElement {
           )}
           style={{ ...stylesFromProps }}
           role={roleFromProps || 'dialog'}
+          ref={dialogRef}
           {...rest}
         >
           {children}
